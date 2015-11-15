@@ -50,8 +50,8 @@ plot_points <- function() {
 
 #setEPS()
 #postscript("sensitivity.eps", width=9, height=6, family="Palatino Linotype")
-dir.create("plots", showWarnings=FALSE)
-cairo_pdf(file.path("plots", "sensitivity.pdf"), 
+dir.create(file.path("..", "plots"), showWarnings=FALSE)
+cairo_pdf(file.path("..", "plots", "sensitivity.pdf"), 
           width=9, height=6, family=plot_font)
 par(mar=c(0, 0, 0, 0), mgp=c(3, 0.25, 0), mfrow=c(3,2), oma=c(5,5,1,1))
 for (ii in c(200, 75, 30)) {
@@ -69,10 +69,10 @@ for (ii in c(200, 75, 30)) {
   meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=0)$m_even
   lines(c(phases, 1+phases), rep(meven, 2), lwd=3, col="white")
   lines(c(phases, 1+phases), rep(meven, 2), lwd=2)
-  axis(side=2, tcl=0, at=c(-0.5, 0, 0.5), line=0.5, cex.axis=1.5)
+  axis(side=2, tcl=0, at=c(-0.5, 0, 0.5), cex.axis=1.5, mgp=c(3, 0.25, 0))
   if (ii==30) {
     axis(side=1, at=c(0, 0.5, 1, 1.5), labels=c(0, 0.5, 1, 1.5), tcl=0,
-         cex.axis=1.5, line=0.5)
+         cex.axis=1.5, mgp=c(3, 0.25, 0))
     mtext('Magnitude', side=2, line=3, outer=T, cex=1.5)
     mtext('Phase', side=1, line=3, outer=T, cex=1.5)
   }
@@ -81,11 +81,11 @@ for (ii in c(200, 75, 30)) {
   plot_lines(); plot_points()
   text(0.5, y_range[2]+0.15, "LASSO", pos=1, cex=1.5)
   text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.5)
-  meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=100000)$m_even
+  meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=10000)$m_even
   lines(c(phases, 1+phases), rep(meven, 2), lwd=4, col="white")
   lines(c(phases, 1+phases), rep(meven, 2), lwd=3)
   if (ii==30) 
     axis(side=1, at=c(0, 0.5, 1, 1.5, 2), labels=c(0, 0.5, 1, 1.5, 2), tcl=0, 
-         cex.axis=1.5, line=0.5)
+         cex.axis=1.5, mgp=c(3, 0.25, 0))
 }
 dev.off()
