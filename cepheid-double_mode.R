@@ -1,4 +1,4 @@
-#### LASSO fit of a double-mode Cepheid 
+#### LASSO fit of a multi-mode Cepheid 
 #### Author: Earl Bellinger ( bellinger@mps.mpg.de ) 
 #### Stellar Ages & Galactic Evolution Group 
 #### Max-Planck-Institut fur Sonnensystemforschung 
@@ -33,8 +33,8 @@ plot(new_t - data$t[t_range][1], predictions,
      ylab="I-band Magnitude",
      xlim=range(data$t[t_range]-data$t[t_range][1]),
      ylim=rev(range(data$m[t_range]) + c(-1, 1) * max(data$e[t_range])),
-     tcl=0, cex.lab=1.5, xaxt='n', yaxt='n')#, col="darkred")
-magaxis(side=1:4, tcl=0.25, labels=c(1,1,0,0))
+     tcl=0, cex.lab=1.5)#, xaxt='n', yaxt='n')#, col="darkred")
+magaxis(side=1:4, tcl=0.25, labels=c(0,0,0,0))
 
 errbar(data$t[t_range]-data$t[t_range][1], 
        data$m[t_range], 
