@@ -52,7 +52,7 @@ plot_points <- function() {
 #postscript("sensitivity.eps", width=9, height=6, family="Palatino Linotype")
 dir.create("plots", showWarnings=FALSE)
 cairo_pdf(file.path("plots", "sensitivity.pdf"), 
-          width=9, height=8, family=plot_font)
+          width=9, height=6, family=plot_font)
 par(mar=c(0, 0, 0, 0), mgp=c(3, 0.25, 0), mfrow=c(3,2), oma=c(5,5,1,1))
 for (ii in c(200, 75, 30)) {
   # sample points
@@ -80,7 +80,7 @@ for (ii in c(200, 75, 30)) {
   plot_lines(); plot_points()
   text(0.5, y_range[2]+0.15, "LASSO", pos=1, cex=1.3)
   text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.3)
-  meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=1000)$m_even
+  meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=10000)$m_even
   lines(c(phases, 1+phases), rep(meven, 2), lwd=4, col="white")
   lines(c(phases, 1+phases), rep(meven, 2), lwd=3)
   if (ii==30) 
