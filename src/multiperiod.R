@@ -242,14 +242,15 @@ fit_lightcurve <- function(filename, periods=1, t0s=0, show_plot=TRUE,
 }
 
 test <- function() {
-  fit_lightcurve('data/OGLE-LMC-CEP-0002.dat', 3.118120, 2171.239,
+  fit_lightcurve(file.path('..', 'sample_data', 'OGLE-LMC-CEP-0002.dat'), 
+                 3.118120, 2171.239,
                  save_dir='multiplots', output_fmt='.png')
   
-  fit_lightcurve('data/OGLE-SMC-CEP-0408.dat', 
+  fit_lightcurve(file.path('..', 'sample_data', 'OGLE-SMC-CEP-0408.dat'), 
                  c(1.7901765, 1.3140538), c(624.75372, 624.97043),
                  save_dir='multiplots', output_fmt='.png')
   
-  fit_lightcurve('data/OGLE-SMC-CEP-3867.dat', 
+  fit_lightcurve(file.path('..', 'sample_data', 'OGLE-SMC-CEP-3867.dat'), 
                  c(0.2688471, 0.2173800, 0.1824204), 
                  c(2104.60491, 2104.81172, 2104.72340),
                  save_dir='multiplots', output_fmt='.png')

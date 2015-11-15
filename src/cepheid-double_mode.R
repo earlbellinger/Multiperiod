@@ -13,7 +13,7 @@ par(mar=c(5, 5, 1, 1), mgp=c(3, 0.25, 0))
 #periods <- c(0.2688471, 0.2173800, 0.1824204)
 #fname <- file.path('data', 'OGLE-SMC-CEP-3867.dat')
 periods <- c(1.7901765, 1.3140538)
-fname <- file.path('data', 'OGLE-SMC-CEP-0408.dat')
+fname <- file.path('..', 'sample_data', 'OGLE-SMC-CEP-0408.dat')
 data <- read.table(fname, col.names=c('t', 'm', 'e'))
 fit <- fit_multiple(data, periods, n_lambda=1000, Nmax=10)
 
