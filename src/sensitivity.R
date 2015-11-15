@@ -64,28 +64,28 @@ for (ii in c(200, 75, 30)) {
   
   # plot least squares fit
   plot_lines(); plot_points()
-  text(0.5, y_range[2]+0.15, "Least Squares", pos=1, cex=1.5)
-  text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.5)
   meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=0)$m_even
   lines(c(phases, 1+phases), rep(meven, 2), lwd=3, col="white")
   lines(c(phases, 1+phases), rep(meven, 2), lwd=2)
-  axis(side=2, tcl=0, at=c(-0.5, 0, 0.5), cex.axis=1.5, mgp=c(3, 0.25, 0))
+  axis(side=2, tcl=0, at=c(-0.5, 0, 0.5), cex.axis=1.5, mgp=c(3, 0.5, 0))
   if (ii==30) {
     axis(side=1, at=c(0, 0.5, 1, 1.5), labels=c(0, 0.5, 1, 1.5), tcl=0,
-         cex.axis=1.5, mgp=c(3, 0.25, 0))
+         cex.axis=1.5, mgp=c(3, 0.5, 0))
     mtext('Magnitude', side=2, line=3, outer=T, cex=1.5)
     mtext('Phase', side=1, line=3, outer=T, cex=1.5)
   }
+  text(0.5, y_range[2]+0.15, "Least Squares", pos=1, cex=1.5)
+  text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.5)
   
   # plot lasso fit
   plot_lines(); plot_points()
-  text(0.5, y_range[2]+0.15, "LASSO", pos=1, cex=1.5)
-  text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.5)
   meven <- fit_single_iterative(photometry, period=2*pi, n_lambda=10000)$m_even
   lines(c(phases, 1+phases), rep(meven, 2), lwd=4, col="white")
   lines(c(phases, 1+phases), rep(meven, 2), lwd=3)
   if (ii==30) 
     axis(side=1, at=c(0, 0.5, 1, 1.5, 2), labels=c(0, 0.5, 1, 1.5, 2), tcl=0, 
-         cex.axis=1.5, mgp=c(3, 0.25, 0))
+         cex.axis=1.5, mgp=c(3, 0.5, 0))
+  text(0.5, y_range[2]+0.15, "LASSO", pos=1, cex=1.5)
+  text(1.5, y_range[2]+0.15, paste(ii, "observations"), pos=1, cex=1.5)
 }
 dev.off()
