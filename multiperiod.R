@@ -193,9 +193,8 @@ fit_single_iterative <- function(photometry, period=1, t0=0, n_lambda=nlambda,
   return(best)
 }
 
-fit_multiple <- function(photometry, periods, n_lambda=nlambda, alpha.=alpha,
-                         Nmax=N_max) {
-  Fourier_space <- Fourier(photometry$t, periods, Nmax)
+fit_multiple <- function(photometry, periods, n_lambda=nlambda, alpha.=alpha) {
+  Fourier_space <- Fourier(photometry$t, periods)
   cvfit <- cv.glmnet(Fourier_space$X, photometry$m, weights=1/photometry$e, 
                      nlambda=n_lambda, alpha=alpha.)
   m_hat <- predict(cvfit, newx=Fourier_space$X, s="lambda.min", exact=TRUE)
