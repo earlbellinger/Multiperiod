@@ -1,2 +1,2 @@
 # multiperiod
-R package for the multiperiodic Fourier decomposition 
+R and Matlab packages for the multiperiodic Fourier decomposition 
