@@ -46,15 +46,15 @@
 \setcounter{equation}{0}\setcounter{figure}{0}\setcounter{footnote}{0}\setcounter{section}{0}\setcounter{table}{0}\setcounter{page}{1}
 \markboth{Bellinger, Wysocki \& Kanbur}{Measuring amplitudes of variable stars}
 \title{Measuring amplitudes of harmonics and combination frequencies in variable stars}
-\author{Earl P. Bellinger$^1$, Daniel Wysocki$^2$ \& Shashi M. Kanbur$^3$}
+\author{Earl P. Bellinger$^{1,2}$, Daniel Wysocki$^3$ \& Shashi M. Kanbur$^4$}
 \affil{$^1$Max-Planck-Institut f\"ur Sonnensystemforschung, G\"ottingen, Germany\\
-%$^2$Yale University, New Haven, CT, USA\\
+$^2$Stellar Astrophysics Centre, Aarhus, Denmark\\
 $^3$Rochester Institute of Technology, NY, USA\\
 $^4$State University of New York at Oswego, NY, USA}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-The OGLE and Kepler/K2 projects are discovering many multi-mode RR Lyrae and Cepheid variable stars in the Galaxy and Magellanic Clouds. The Fourier spectra associated with these stars can be quite complicated due to the large number of possible combination frequencies between the modes. Unfortunately, existing methods are known to produce light curve fits that often suffer from non-physical ringing and overfitting effects due to noise or gaps in phase coverage. In fact, such artifacts even arise in single-mode stars due to harmonic frequencies. In this work, we present a new method for fitting light curves that is much more robust to these effects. We prove that the amplitude measurement problem is very difficult (NP-hard) and provide a heuristic algorithm for solving it quickly and accurately. 
+Discoveries of RR Lyrae and Cepheid variable stars with multiple modes of pulsation have increased tremendously in recent years. The Fourier spectra of these stars can be quite complicated due to the large number of combination frequencies between their modes. Furthermore, light curve fits to these stars often suffer from non-physical ringing artifacts that arise from noisy observations and poor phase coverage. These undesirable overfitting effects occur in single-mode stars as well due to their harmonic frequencies. In this work, we present a new method for fitting light curves that is much more robust against these effects. We prove that the amplitude measurement problem is very difficult (NP-hard) and provide a heuristic algorithm for solving it quickly and accurately. 
 \end{abstract}
 
 \section{Introduction to the Fourier Decomposition}
@@ -62,7 +62,7 @@ The light curve of a Cepheid or RR Lyrae variable star with one or more modes of
 \begin{equation}
     m(t ; \vec \omega, \mathbf A, \boldsymbol \Phi) = \sum_{k_1={-N}}^N \ldots \sum_{k_{|\vec \omega|}={-N}}^N A_{\vec k} \sin(t\qty[\vec k\cdot \vec \omega] + \Phi_{\vec k})
 \end{equation}
-where $t$ is the time of observation, $m$ is the magnitude, $\vec k$ is a vector of wavenumbers, $\vec \omega$ is a vector of angular frequencies, $\mathbf A$ is a multidimensional array of amplitudes, and $\boldsymbol \Phi$ is a multidimensional array of phases. This equation is known as the \emph{Fourier decomposition} and is especially useful for fitting light curves of stars that have been sampled irregularly in time. 
+where $t$ is the time of observation, $m$ is the magnitude, $\vec k$ is the wavevector, $\vec \omega$ is a vector of angular frequencies, $\mathbf A$ is a multidimensional array of amplitudes, and $\boldsymbol \Phi$ is a multidimensional array of phases. This equation is known as the \emph{Fourier decomposition} and is especially useful for fitting light curves of stars that have been sampled irregularly in time.
 
 The ordinary approach of measuring the amplitudes and phases in this equation begins by first separating each component into a sum of sines $\mathbf S$ and cosines $\mathbf C$ with
 \begin{equation} \label{eq:varsep}
@@ -109,7 +109,7 @@ In Fig.~\ref{fig:goodfit}, we return to the simulated multi-mode oscillator and 
 We are developing a free, open source, and easy-to-use code for fitting light curves with the LASSO method. In addition, we are preparing a catalog of LASSO light curve fits for stars that have been observed by OGLE-III. These will both be released in a future publication. The source codes for producing the figures in this manuscript are available electronically at \url{https://github.com/earlbellinger/multiperiod} \citep{bellinger2015lasso}.
 
 \section*{Acknowledgements}
-EPB thanks support from ERC grant 338251 (Stellar Ages), fellowship support from the NPSC and NIST, and travel support from the Max Planck Society and IMPRS. The authors thank the IUSSTF for their support of the Joint Center for the Analysis of Variable Star Data that funded collaborative visits. DW thanks SUNY Oswego for support to visit the University of Delhi. 
+EPB thanks support from ERC grant grant agreement no.~338251 (StellarAges), fellowship support from the NPSC and NIST, and travel support from the Max Planck Society and IMPRS. The authors thank the IUSSTF for their support of the Joint Center for the Analysis of Variable Star Data that funded collaborative visits. DW thanks SUNY Oswego for support to visit the University of Delhi. 
 
 \begin{figure}[!ht]
     \centering
@@ -120,7 +120,7 @@ EPB thanks support from ERC grant 338251 (Stellar Ages), fellowship support from
 \begin{thebibliography}{}      
 \bibitem[Akaike(1974)]{akaike1974new}Akaike, H., 1974, IEEE Transactions on Automatic Control, 19 (6), 716
 \bibitem[Baart(1982)]{baart1982use}Baart, M.~L., 1982, IMA Journal of Numerical Analysis, 2 (2), 241
-\bibitem[Bellinger(2015)]{bellinger2015lasso}Bellinger, E.P., 2015, GitHub, DOI:
+\bibitem[Bellinger(2015)]{bellinger2015lasso}Bellinger, E.P., 2015, Zenodo, DOI: 10.5281/zenodo.34205
 \bibitem[Efron et~al.(2004)]{efron2004least}Efron, B., Hastie, T., Johnstone, I., et al., 2004, Annals of Statistics, 32 (2), 407
 \bibitem[Fu(1998)]{fu1998penalized}Fu, W.~J., 1998, Journal of Computational and Graphical Statistics, 7 (3), 397
 \bibitem[Petersen(1986)]{petersen1986studies}Petersen, J.~O., 1986, A\&A, 170, 59
