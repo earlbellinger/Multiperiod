@@ -54,7 +54,7 @@ $^4$State University of New York at Oswego, NY, USA}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-The OGLE and Kepler/K2 projects are discovering many multi-mode RR Lyrae and Cepheid variable stars in the Galaxy and Magellanic Clouds. The Fourier spectra associated with these stars can be quite complicated due to the large amount of possible combination frequencies between the modes. Unfortunately, existing methods are known to produce light curve fits that often suffer from non-physical ringing and overfitting effects due to noise or gaps in phase coverage. In fact, such artifacts even arise in single-mode stars because of harmonics. In this work, we present a new method for fitting light curves that is much more robust to these effects. We prove that the amplitude measurement problem is very difficult (NP-hard) and provide a heuristic algorithm for solving it quickly and accurately. 
+The OGLE and Kepler/K2 projects are discovering many multi-mode RR Lyrae and Cepheid variable stars in the Galaxy and Magellanic Clouds. The Fourier spectra associated with these stars can be quite complicated due to the large number of possible combination frequencies between the modes. Unfortunately, existing methods are known to produce light curve fits that often suffer from non-physical ringing and overfitting effects due to noise or gaps in phase coverage. In fact, such artifacts even arise in single-mode stars due to harmonic frequencies. In this work, we present a new method for fitting light curves that is much more robust to these effects. We prove that the amplitude measurement problem is very difficult (NP-hard) and provide a heuristic algorithm for solving it quickly and accurately. 
 \end{abstract}
 
 \section{Introduction to the Fourier Decomposition}
@@ -68,18 +68,19 @@ The ordinary approach of measuring the amplitudes and phases in this equation be
 \begin{equation} \label{eq:varsep}
     A_{\vec k} \sin(t\qty[\vec k\cdot \vec \omega] + \Phi_{\vec k}) = S_{\vec k} \sin(t\qty[\vec k\cdot \vec \omega]) + C_{\vec k} \cos(t\qty[\vec k\cdot \vec \omega]).
 \end{equation}
-A matrix $\mathbf{X}$ is then constructed containing columns for each sine and cosine term and a row for each time of observation. The amplitude of each component can be measured with least squares linear regression, i.e.~ $\qty[\mathbf{S}\; \mathbf{C}] = (\textsf{\textbf{X}}^\text{T} \textsf{\textbf{X}})^{-1} \textsf{\textbf{X}}^\text{T} \vec{m}$, and finally we can obtain
+A matrix $\mathbf{X}$ is constructed containing columns for each sine and cosine term and a row for each individual observation. The amplitude of each component of the Fourier fit can then be measured with least squares linear regression, i.e.~ $\qty[\mathbf{S}\; \mathbf{C}] = (\textsf{\textbf{X}}^\text{T} \textsf{\textbf{X}})^{-1} \textsf{\textbf{X}}^\text{T} \vec{m}$, and finally we can obtain
 \begin{equation}
     A_{\vec{k}} = \sqrt{C_{\vec{k}}^2 + S_{\vec{k}}^2} \quad \text{ and } \quad \tan(\Phi_{\vec{k}}) = -S_{\vec{k}} / C_{\vec{k}}.
 \end{equation}
 The only thing left to be determined is the order of fit $N$, that is, the number of components needed to describe the signal. This is commonly achieved by successive prewhitening or with the procedure known as Baart's criterion, which involves iteratively increasing $N$ until the auto-correlation of the residuals are below some threshold \citep{baart1982use, petersen1986studies}. 
 
-Unfortunately, these procedures can result in very poor fits to observational data, especially when the data contain outliers or the time series has significant gaps in the phase coverage of the periods. An example of this can be seen in Fig.~\ref{fig:badfit}, in which a time series of observations for a simulated multi-mode pulsator are fit using least squares. 
+Unfortunately, these procedures can result in very poor fits to observational data, especially when the data contain outliers or the time series has significant gaps in the phase coverage of the periods. An example of this can be seen in Fig.~\ref{fig:badfit}, in which a time series of observations for a simulated multi-mode variable star is fitted using the least squares Fourier decomposition. 
 
 \begin{figure}[!t]
     \centering
-    \input{mpo-points.tex}
-    \caption{An example of a simulated multi-mode oscillator being fit by the least squares Fourier decomposition. The blue dotted line is the light curve, the red points are the observations, and the solid line is the fit. The least squares solution fits very poorly to the data and shows strong non-physical ringing artifacts.} 
+    %\input{mpo-points.tex}
+    \includegraphics[width=\textwidth]{bellinger-fig1.eps}
+    \caption{An example of a simulated multi-mode oscillator being fit by the least squares Fourier decomposition. The blue dotted line is the true light curve of the star, the red points are the observations, and the solid line is the least squares fit. The fit is very poor and shows strong non-physical ringing effects.} 
     \label{fig:badfit} 
 \end{figure} 
 
@@ -94,13 +95,13 @@ We want to estimate the optimal parameters $\mathbf {\hat A}$ and $\boldsymbol{\
 \end{equation}
 This optimization problem has several aspects that make it very difficult to solve. Not only does it have multiple objectives, but it is also a sparse ($\ell_0$-norm) minimization problem, which is well-known to be NP-hard and therefore not able to be solved in practice. Hence, we are required to simplify the problem. 
 
-If we relax the constraint on the amplitudes to $\ell_1$-norm minimization, which encourages sparsity instead of requiring it, then we can make use of the method of Lagrangian multipliers to scalarize the problem. We can combine the objectives with a \emph{regularization parameter} that can be chosen either via cross-validation or an information criterion such as Akaike (\citeyear{akaike1974new}) or Bayes \citep{schwarz1978estimating}. This is equivalent to putting Laplacian priors on all of the amplitudes. This simplified problem is known in regression analysis as the Least Absolute Shrinkage and Selection Operator, or \emph{LASSO}, and we can solve it using quadratic programming \citep{tibshirani1996regression}, coordinate descent \citep{fu1998penalized}, or least-angle regression \citep{efron2004least}. 
+If we relax the constraint on the amplitudes to $\ell_1$-norm minimization, which encourages sparsity instead of requiring it, then we can make use of the method of Lagrangian multipliers to scalarize the objectives. We can combine the objective functions with a \emph{regularization parameter} that can be chosen either via cross-validation or an information criterion such as Akaike (\citeyear{akaike1974new}) or Bayes \citep{schwarz1978estimating}. This is equivalent to putting Laplacian priors on all of the amplitudes. This simplified problem is known in regression analysis as the Least Absolute Shrinkage and Selection Operator, or \emph{LASSO}, and we can solve it using quadratic programming \citep{tibshirani1996regression}, coordinate descent \citep{fu1998penalized}, or least-angle regression \citep{efron2004least}. 
 
-In Fig.~\ref{fig:goodfit}, we return to the simulated multi-mode oscillator and fit it with the LASSO. It can be seen that the ringing effects have been eliminated. Additionally, in Fig.~\ref{fig:sensitivity} we show how a classical RR Lyrae star with just one period can also benefit from this method.
+In Fig.~\ref{fig:goodfit}, we return to the simulated multi-mode oscillator and fit it with our LASSO method. It can be seen that the ringing effects have been eliminated. In Fig.~\ref{fig:sensitivity}, we apply this method to a classical RR Lyrae light curve with one period of pulsation. Here it can be seen that the LASSO vastly outperforms the least squares method, especially when there are few data points. 
 
 \begin{figure}[!t]
     \centering
-    \input{mpo-lasso.tex}
+    \includegraphics[width=\textwidth]{bellinger-fig2.eps}
     \caption{The same data in Fig.~\ref{fig:badfit} being fit with the LASSO method.}% of Eqn.~\ref{eq:lasso}.} 
     \label{fig:goodfit} 
 \end{figure}
@@ -112,8 +113,8 @@ EPB thanks support from ERC grant 338251 (Stellar Ages), fellowship support from
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth,keepaspectratio]{sensitivity.pdf}
-    \caption{Sensitivity analysis of a simulated RR Lyrae light curve (dashed gray line). When the number of observations (red points) is large (top), both least squares (solid black line, left) and LASSO (solid black line, right) fits perform well. When the number of observations is small (bottom), however, the least squares fit performs very poorly and only the LASSO fit still works as desired.} 
+    \includegraphics[width=\textwidth,keepaspectratio]{bellinger-fig3.eps}
+    \caption{Sensitivity analysis of a simulated RR Lyrae light curve (dashed gray line). When the number of observations (red points) is large (top), both least squares (solid black line, left) and LASSO (solid black line, right) fits perform well. When the number of observations is small (bottom), however, the least squares fit fails catastrophically and only the LASSO still works as desired.} 
     \label{fig:sensitivity} 
 \end{figure}
 \begin{thebibliography}{}      
