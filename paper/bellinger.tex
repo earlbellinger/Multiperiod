@@ -9,33 +9,9 @@
 \usepackage{bigdelim}
 \usepackage{multirow}
 
+\usepackage{hyperref}
 \usepackage{physics}
 \usepackage{subfig}
-
-\usepackage{hyperref}
-
-\usepackage{tikz}
-\usetikzlibrary{arrows,positioning} 
-
-\usepackage{tkz-euclide}
-\usetkzobj{all}
-\usetikzlibrary{arrows.meta,positioning,calc}
-
-\newlength\figureheight
-\newlength\figurewidth
-\setlength\figureheight{0.25\textheight}
-\setlength\figurewidth{\textwidth}
-
-\usepackage{layouts}
-
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.10}
-
-\pgfplotsset{
-    vasymptote/.style={before end axis/.append code={\draw[dashed,<->,-{Latex}] ({rel axis cs:0,0} -| {axis cs:#1,0}) -- ({rel axis cs:0,1} -| {axis cs:#1,0}); }},
-    myaxis/.style={axis line style={<->, {Latex}-{Latex}}}
-}
-
 
 \makeindex
 
