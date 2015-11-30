@@ -21,13 +21,17 @@ alpha <- 1
 N_max <- 8
 phases <- seq(0, 1, 0.001)
 
-# Construct the matrix "X" that we use for linear regression
-Fourier <- function(t=phases, p=1, Nmax=N_max) {
+get_freqs <- function(p=1, Nmax=N_max) {
   base_freqs <- 1/p
   combos <- expand.grid(rep(list(-Nmax:Nmax), length(base_freqs)))
   freqs <- apply(combos, 1, function(combo) { base_freqs %*% combo })
   freqs <- unique(abs(freqs))
-  freqs <- rev(freqs[freqs>0])
+  sort(freqs[freqs>0])
+}
+
+# Construct the matrix "X" that we use for linear regression
+Fourier <- function(t=phases, p=1, Nmax=N_max) {
+  freqs <- get_freqs(p, Nmax)
   num_freqs <- length(freqs)
   X <- matrix(nrow=length(t), ncol=2*num_freqs) 
   for (ii in 1:num_freqs) {
@@ -193,14 +197,15 @@ fit_single_iterative <- function(photometry, period=1, t0=0, n_lambda=nlambda,
   return(best)
 }
 
-fit_multiple <- function(photometry, periods, n_lambda=nlambda, alpha.=alpha) {
-  Fourier_space <- Fourier(photometry$t, periods)
+fit_multiple <- function(photometry, periods, n_lambda=nlambda, alpha.=alpha,
+                         Nmax=N_max) {
+  Fourier_space <- Fourier(photometry$t, periods, Nmax)
   cvfit <- cv.glmnet(Fourier_space$X, photometry$m, weights=1/photometry$e, 
                      nlambda=n_lambda, alpha=alpha.)
   m_hat <- predict(cvfit, newx=Fourier_space$X, s="lambda.min", exact=TRUE)
   mse <- cvfit$cvm[cvfit$lambda == cvfit$lambda.min]
   return(list(m_hat=m_hat, cvfit=cvfit, freqs=Fourier_space$freqs,
-              coefs=coef(cvfit), mse=mse))
+              coefs=coef(cvfit, s="lambda.min"), mse=mse))
 }
 
 obj_f <- function(photometry, periods, 
